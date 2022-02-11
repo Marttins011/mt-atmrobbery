@@ -20,25 +20,36 @@ end
 -- function do mini game
 function RobAtm()
     local minigame = exports['hackingminigame']:Open()   
-    if(minigame == true) then -- success
-    ClearPedTasksImmediately(PlayerPedId())
-    HackSuccess() 
- else
-     Citizen.Wait(1000)
-     ClearPedTasksImmediately(PlayerPedId())
-     HackFailed()
+    if (minigame == true) then -- success
+        ClearPedTasksImmediately(PlayerPedId())
+        HackSuccess()
+        TriggerServerEvent('QBCore:Server:RemoveItem', 'laptop_atm', 1)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items["laptop_atm"], 'remove')
+    else
+        Citizen.Wait(1000)
+        ClearPedTasksImmediately(PlayerPedId())
+        HackFailed()
+        TriggerServerEvent('QBCore:Server:RemoveItem', 'laptop_atm', 1)
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items["laptop_atm"], 'remove')
     end
 end
 
 -- function para o alerta da policia
 function PoliceCall()
-        TriggerServerEvent('police:server:policeAlert', 'ASSALTO A ATM EM CONCURSO')
+    TriggerServerEvent('police:server:policeAlert', 'ASSALTO A ATM EM CONCURSO')
 end
 
 --Event para iniciar roubo
 RegisterNetEvent('mt-atmrobbery:client:iniciar', function()
-    RobAtm()
-    PoliceCall()
+    local rand = math.random(1,100)
+    if rand => 50 then
+        PoliceCall()
+    end
+    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+        if result then
+            RobAtm()
+        end
+    end, 'laptop_atm')
 end)
 
 -- Function da anim de pegar o dinheiro
@@ -87,14 +98,14 @@ local prop = {
     "prop_atm_03",
     "prop_fleeca_atm",
 }
-  exports['qb-target']:AddTargetModel(prop, {
-      options = {
-          {
-              type = "client",
-              event = "mt-atmrobbery:client:iniciar",
-              icon = "fas fa-user-secret",
-              label = "ROUBAR ATM",
+exports['qb-target']:AddTargetModel(prop, {
+    options = {
+        {
+            type = "client",
+            event = "mt-atmrobbery:client:iniciar",
+            icon = "fas fa-user-secret",
+            label = "ROUBAR ATM",
         },
     },
-        distance = 2.0    
+    distance = 2.0    
 })
