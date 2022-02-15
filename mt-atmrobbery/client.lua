@@ -44,14 +44,14 @@ function RobAtm()
 								HackFailed()
 							end
 						else
-							QBCore.Functions.Notify("Força bruta não vai funcionar aqui", "error")
+							QBCore.Functions.Notify("You need a Trojan USB to hack this", "error")
 						end
 					end, "trojan_usb")
 				else
-					QBCore.Functions.Notify("Sem policias", "error")
+					QBCore.Functions.Notify("not enough police", "error")
 				end
 			else
-				QBCore.Functions.Notify("ATM foi roubado recentemente, Tempo de espera do sistema ativo ")
+				QBCore.Functions.Notify("This ATM has been hacked recently, you must wait a time to try again...")
 			end
 		end)
 	else
@@ -61,7 +61,7 @@ end
 
 function RobbingTheMoney()
     Anim = true
-    QBCore.Functions.Progressbar("power_hack", "A encher saco de dinheiro...", (7500), false, true, {
+    QBCore.Functions.Progressbar("power_hack", "Taking money...", (7500), false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -97,15 +97,15 @@ function RobbingTheMoney()
 end
 
 function HackFailed()
-	QBCore.Functions.Notify("Fds és uma merda como é que falhas-te isso?")
+	QBCore.Functions.Notify("failed?")
     if math.random(1, 100) <= 40 then
 		TriggerServerEvent("evidence:server:CreateFingerDrop", pos)
-		QBCore.Functions.Notify("Deixas-te impressões digitais no ATM...")
+		QBCore.Functions.Notify("You leave fingerprints at the ATM...")
 	end
 end
 
 function HackSuccess()
-	QBCore.Functions.Notify("Sucesso!")
+	QBCore.Functions.Notify("Success!")
     ClearPedTasksImmediately(PlayerPedId())
 	RobbingTheMoney()
 	TriggerServerEvent("mt-atmrobbery:success")	
@@ -118,7 +118,7 @@ function PoliceCall()
         chance = 50
     end
     if math.random(1, 100) <= chance then
-        TriggerServerEvent('police:server:policeAlert', 'ASSALTO A ATM EM CONCURSO')
+        TriggerServerEvent('police:server:policeAlert', 'ATM ROBBERY IN COURSE')
     end
 end
 
@@ -134,7 +134,7 @@ local prop = {
               type = "client",
               event = "mt-atmrobbery:client:roubar",
               icon = "fas fa-user-secret",
-              label = "ROUBAR ATM",
+              label = "Hack ATM",
         },
     },
         distance = 2.0    
