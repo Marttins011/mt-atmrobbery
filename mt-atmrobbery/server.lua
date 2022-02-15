@@ -1,5 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local Cooldown = false
+local cashA = 50
+local cashB = 150
 
 
 -- hack
@@ -11,12 +13,17 @@ end)
 -- Recompensa
 RegisterServerEvent("mt-atmrobbery:success")
 AddEventHandler("mt-atmrobbery:success",function()
+    local src = source
 	local Player =  QBCore.Functions.GetPlayer(source)
-    local reward = math.random(1,2)
-	Player.Functions.AddItem("markedbills", tonumber(reward))
+    local bags = 1
+	local info = {
+		worth = math.random(cashA, cashB)
+	}
+	Player.Functions.AddItem('markedbills', bags, false, info)
+	--Player.Functions.AddItem("markedbills", tonumber(reward))
     Player.Functions.RemoveItem("trojan_usb", 1)
-	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items["markedbills"], "add")
-
+	--TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items["markedbills"], "add")
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['markedbills'], "add")
 end)
 
 -- Cooldown
