@@ -30,7 +30,7 @@ end)
 RegisterServerEvent('mt-atmrobbery:Server:BeginCooldown')
 AddEventHandler('mt-atmrobbery:Server:BeginCooldown', function()
     Cooldown = true
-    local timer = 60000 * 60000
+    local timer = 60 * 1000
     while timer > 0 do
         Wait(1000)
         timer = timer - 1000
